@@ -1,14 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import YTSearch from 'youtube-api-search';
 
 import SearchBar from './components/search-bar';
+import VideoList from './components/video-list';
 
 const API_KEY = 'AIzaSyCTsgqVi5QIbTwv3yo4f6EfcCtkiLV86kk';
 
-const App = () =>
-  <div>
-    <SearchBar />
-  </div>
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {videos: []};
+
+    YTSearch(
+      {key: API_KEY, term: 'blender cycles'},
+      videos => this.setState({ videos })
+    );
+
+  }
+  render() {
+    return (
+      <div>
+        <SearchBar />
+        <VideoList videos={this.state.videos} />
+      </div>
+    );
+  }
+}
+
 
 
 ReactDOM.render(
